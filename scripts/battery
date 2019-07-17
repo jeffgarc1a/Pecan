@@ -1,7 +1,15 @@
 #!/bin/bash
 
-bat(){
-	pmset -g batt | grep -o '[0-9]*%'
-}
+if pmset -g batt | grep AC &> /dev/null; then
+    echo "⚡"
+else
+    echo "♥"
+fi
 
-bat | head -c 3
+battery="$(pmset -g batt | grep -o '[0-9]*%')"
+
+if [[ "${#battery}" -gt 3 ]] ; then
+	echo "$battery" | tr -d '%'
+else
+	echo "$battery"
+fi
